@@ -1,7 +1,7 @@
 type Item = {
   name: string;
   tagName: "input" | "select" | "textarea";
-  type?: string;
+  type?: "text" | "email" | "tel" | "radio" | "checkbox";
   label: string;
   placeholder?: string;
   values?: { label: string; value: number }[];
