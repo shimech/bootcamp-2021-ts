@@ -1,26 +1,37 @@
-type Item = {
+type BaseItem = {
   name: string;
   label: string;
+}
+
+type InputItem = BaseItem & {
   tagName: "input";
   type: "text" | "email" | "tel";
   placeholder: string;
-} | {
-  name: string;
-  label: string;
+}
+
+type RadioItem = BaseItem & {
   tagName: "input";
-  type: "radio" | "checkbox";
+  type: "radio";
   values: { label: string; value: number }[];
-} | {
-  name: string;
-  label: string;
+}
+
+type CheckboxItem = BaseItem & {
+  tagName: "input";
+  type: "checkbox";
+  values: { label: string; value: number }[];
+}
+
+type SelectItem = BaseItem & {
   tagName: "select";
   options: { text: string; value: number }[];
-} | {
-  name: string;
-  label: string;
+}
+
+type TextareaItem = BaseItem & {
   tagName: "textarea";
   placeholder: string;
 }
+
+type Item = InputItem | RadioItem | CheckboxItem | SelectItem | TextareaItem
 
 const items: Item[] = [
   {
