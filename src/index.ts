@@ -26,12 +26,12 @@ type SelectItem = BaseItem & {
   options: { text: string; value: number }[];
 }
 
-type TextareaItem = BaseItem & {
+type TextAreaItem = BaseItem & {
   tagName: "textarea";
   placeholder: string;
 }
 
-type Item = InputItem | RadioItem | CheckboxItem | SelectItem | TextareaItem
+type Item = InputItem | RadioItem | CheckboxItem | SelectItem | TextAreaItem
 
 const items: Item[] = [
   {
@@ -105,9 +105,7 @@ const items: Item[] = [
 // _____________________________________________________________________________
 //
 
-function createInputRow(item: Item) {
-  if (item.tagName !== "input") return "";
-
+function createInputRow(item: InputItem | RadioItem | CheckboxItem) {
   switch (item.type) {
     case "radio":
     case "checkbox":
@@ -132,9 +130,7 @@ function createInputRow(item: Item) {
   }
 }
 
-function createSelectRow(item: Item) {
-  if (item.tagName !== "select") return "";
-
+function createSelectRow(item: SelectItem) {
   const optionElements: string[] = item.options.map(o => `<option value=${o.value}>${o.text}</option>`)
   return `
     <tr>
@@ -148,9 +144,7 @@ function createSelectRow(item: Item) {
   `;
 }
 
-function createTextAreaRow(item: Item) {
-  if (item.tagName !== "textarea") return "";
-
+function createTextAreaRow(item: TextAreaItem) {
   return `
     <tr>
       <th>${item.label}</th>
