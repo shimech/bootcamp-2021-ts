@@ -1,6 +1,6 @@
 type Item = {
   name: string;
-  tagName: string;
+  tagName: "input" | "select" | "textarea";
   type?: string;
   label: string;
   placeholder?: string;
@@ -83,22 +83,22 @@ const items: Item[] = [
 function createInputRow(item: Item) {
   return `
     <tr>
-      <th>
-      </th>
+      <th>${item.label}</th>
       <td>
-        <input />
+        <input type=${item.type} placeholder=${item.placeholder} />
       </td>
     </tr>
   `;
 }
 
 function createSelectRow(item: Item) {
+  const optionElements: string[] = item.options.map(o => `<option value=${o.value}>${o.text}</option>`)
   return `
     <tr>
-      <th>
-      </th>
+      <th>${item.label}</th>
       <td>
         <select>
+        ${optionElements.join("\n")}
         </select>
       </td>
     </tr>
@@ -108,10 +108,21 @@ function createSelectRow(item: Item) {
 function createTextAreaRow(item: Item) {
   return `
     <tr>
-      <th>
-      </th>
+      <th>${item.label}</th>
       <td>
-        <textarea></textarea>
+        <textarea placeholder=${item.placeholder}></textarea>
+      </td>
+    </tr>
+  `;
+}
+
+function createRadioRow(item: Item) {
+  const radioElements: string[] = item.values.map(v => `<input type=${item.type} value=${v.value}>${v.label}</input>`)
+  return `
+    <tr>
+      <th>${item.label}</th>
+      <td>
+      ${radioElements.join("\n")}
       </td>
     </tr>
   `;
@@ -122,7 +133,11 @@ function createTable() {
     .map((item) => {
       switch (item.tagName) {
         case "input":
-          return createInputRow(item);
+          if (["radio", "checkbox"].includes(item.type)) {
+            return createRadioRow(item);
+          } else {
+            return createInputRow(item);
+          }
         case "select":
           return createSelectRow(item);
         case "textarea":
