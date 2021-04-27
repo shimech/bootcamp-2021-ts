@@ -190,6 +190,7 @@ function createTable() {
 
 function createFormDom() {
   const form = document.getElementById("form");
+  if (!form) throw new Error("form not found.")
   form.innerHTML = createTable();
 }
 
