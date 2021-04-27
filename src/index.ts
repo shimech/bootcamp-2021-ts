@@ -85,7 +85,7 @@ function createInputRow(item: Item) {
     <tr>
       <th>${item.label}</th>
       <td>
-        <input type=${item.type} placeholder=${item.placeholder} />
+        <input type=${item.type} name=${item.name} placeholder=${item.placeholder} />
       </td>
     </tr>
   `;
@@ -97,7 +97,7 @@ function createSelectRow(item: Item) {
     <tr>
       <th>${item.label}</th>
       <td>
-        <select>
+        <select name=${item.name}>
         ${optionElements.join("\n")}
         </select>
       </td>
@@ -110,14 +110,14 @@ function createTextAreaRow(item: Item) {
     <tr>
       <th>${item.label}</th>
       <td>
-        <textarea placeholder=${item.placeholder}></textarea>
+        <textarea name=${item.name} placeholder=${item.placeholder}></textarea>
       </td>
     </tr>
   `;
 }
 
 function createRadioRow(item: Item) {
-  const radioElements: string[] = item.values.map(v => `<input type=${item.type} value=${v.value}>${v.label}</input>`)
+  const radioElements: string[] = item.values.map(v => `<input type=${item.type} name=${item.name} value=${v.value}>${v.label}</input>`)
   return `
     <tr>
       <th>${item.label}</th>
