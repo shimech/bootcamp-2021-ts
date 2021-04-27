@@ -105,29 +105,39 @@ const items: Item[] = [
 // _____________________________________________________________________________
 //
 
-function createInputRow(item: InputItem | RadioItem | CheckboxItem) {
-  switch (item.type) {
-    case "radio":
-    case "checkbox":
-      const radioElements: string[] = item.values.map(v => `<input type=${item.type} value=${v.value}>${v.label}</input>`)
-      return `
-        <tr>
-          <th>${item.label}</th>
-          <td>
-          ${radioElements.join("\n")}
-          </td>
-        </tr>
-      `;
-    default:
-      return `
-        <tr>
-          <th>${item.label}</th>
-          <td>
-            <input type=${item.type} name=${item.name} placeholder=${item.placeholder} />
-          </td>
-        </tr>
-      `;
-  }
+function createInputRow(item: InputItem) {
+  return `
+    <tr>
+      <th>${item.label}</th>
+      <td>
+        <input type=${item.type} name=${item.name} placeholder=${item.placeholder} />
+      </td>
+    </tr>
+  `;
+}
+
+function createRadioRow(item: RadioItem) {
+  const radioElements: string[] = item.values.map(v => `<input type=${item.type} value=${v.value}>${v.label}</input>`)
+  return `
+    <tr>
+      <th>${item.label}</th>
+      <td>
+      ${radioElements.join("\n")}
+      </td>
+    </tr>
+  `;
+}
+
+function createCheckboxRow(item: CheckboxItem) {
+  const checkboxElements: string[] = item.values.map(v => `<input type=${item.type} value=${v.value}>${v.label}</input>`)
+  return `
+    <tr>
+      <th>${item.label}</th>
+      <td>
+      ${checkboxElements.join("\n")}
+      </td>
+    </tr>
+  `;
 }
 
 function createSelectRow(item: SelectItem) {
@@ -160,7 +170,14 @@ function createTable() {
     .map((item) => {
       switch (item.tagName) {
         case "input":
-          return createInputRow(item);
+          switch (item.type) {
+            case "radio":
+              return createRadioRow(item);
+            case "checkbox":
+              return createCheckboxRow(item);
+            default:
+              return createInputRow(item);
+          }
         case "select":
           return createSelectRow(item);
         case "textarea":
